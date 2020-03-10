@@ -25,44 +25,77 @@ class TestEcho(unittest.TestCase):
         stdout = stdout.decode('UTF-8')
         self.assertEquals(stdout, usage)
 
-    def test_upper(self):
+    def test_upper_long(self):
         """ Running the program without arguments should show usage. """
         parser = echo.create_parser()
         args = ["hello", "--upper"]
         ns = parser.parse_args(args)
-        self.assertEquals(ns.upper, True)
+        self.assertTrue(ns.upper)
         stdout = echo.main(args)
-        usage = args[0].upper()
+        usage = "HELLO"
         self.assertEquals(stdout, usage)
 
-    def test_lower(self):
+    def test_upper_short(self):
+        """ Running the program without arguments should show usage. """
+        parser = echo.create_parser()
+        args = ["hello", "-u"]
+        ns = parser.parse_args(args)
+        self.assertTrue(ns.upper)
+        stdout = echo.main(args)
+        usage = "HELLO"
+        self.assertEquals(stdout, usage)
+
+    def test_lower_long(self):
         """ Running the program without arguments should show usage. """
         parser = echo.create_parser()
         args = ["Hello", "--lower"]
         ns = parser.parse_args(args)
-        self.assertEquals(ns.lower, True)
+        self.assertTrue(ns.lower)
         stdout = echo.main(args)
-        usage = args[0].lower()
+        usage = "hello"
+        self.assertEquals(stdout, usage)
+    
+    def test_lower_short(self):
+        """ Running the program without arguments should show usage. """
+        parser = echo.create_parser()
+        args = ["Hello", "-l"]
+        ns = parser.parse_args(args)
+        self.assertTrue(ns.lower)
+        stdout = echo.main(args)
+        usage = "hello"
         self.assertEquals(stdout, usage)
 
-    def test_title(self):
+    def test_title_long(self):
         """ Running the program without arguments should show usage. """
         parser = echo.create_parser()
         args = ["hello", "--title"]
         ns = parser.parse_args(args)
-        self.assertEquals(ns.title, True)
+        self.assertTrue(ns.title)
         stdout = echo.main(args)
-        usage = args[0].capitalize()
+        usage = "Hello"
+        self.assertEquals(stdout, usage)
+
+    def test_title_short(self):
+        """ Running the program without arguments should show usage. """
+        parser = echo.create_parser()
+        args = ["hello", "-t"]
+        ns = parser.parse_args(args)
+        self.assertTrue(ns.title)
+        stdout = echo.main(args)
+        usage = "Hello"
         self.assertEquals(stdout, usage)
 
     def test_all_args(self):
         """ Running the program without arguments should show usage. """
         parser = echo.create_parser()
-        args = ["hello", "--lower", "--upper", "--title"]
+        args = ["heLlO", "-tul"]
         ns = parser.parse_args(args)
-        self.assertEquals(args, True)
+        self.assertTrue(ns.title)
+        self.assertTrue(ns.lower)
+        self.assertTrue(ns.upper)
+        self.assertEquals(ns.text, "heLlO")
         stdout = echo.main(args)
-        usage = string.capwords(args[0]).lower().upper()
+        usage = "hello"
         self.assertEquals(stdout, usage)
 
     def test_no_args(self):
@@ -72,7 +105,7 @@ class TestEcho(unittest.TestCase):
         ns = parser.parse_args(args)
         self.assertEquals(ns.text, "Hello")
         stdout = echo.main(args)
-        usage = args[0]
+        usage = "Hello"
         self.assertEquals(stdout, usage)
 
 
